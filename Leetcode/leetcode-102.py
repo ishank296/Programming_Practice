@@ -7,6 +7,8 @@
 #
 #  [[0], [3,7], [6,9,2]]
 
+from typing import List,Optional
+
 class TreeNode:
     def __init__(self,x):
         self.val = x
@@ -16,23 +18,20 @@ class TreeNode:
 
 class Solution:
 
-    def levelordertraversal(self,root)->list[int]:
-        queue = [root]
-        result = []
-        next_queue = []
-        cur_level = []
-        while queue:
-            for node in queue:
-                cur_level.append(node.val)
-                if node.left is not None:
-                    next_queue.append(node.left)
-                if node.right is not None:
-                    next_queue.append(node.right)
-            result.append(cur_level)
-            queue = next_queue
-            next_queue = []
-            cur_level = []
-        return result
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        res = []
+        if root:
+            cur_level = [root]
+        else:
+            return []
+        while cur_level:
+            res.append([i.val for i in cur_level])
+            next_level = []
+            for i in cur_level:
+                if i.left: next_level.append(i.left)
+                if i.right: next_level.append(i.right)
+            cur_level = next_level
+        return res
 
 
 if __name__ == "__main__":
@@ -48,6 +47,6 @@ if __name__ == "__main__":
     t2.left = t4
     t2.right = t5
     s = Solution()
-    print(s.levelordertraversal(root))
+    print(s.levelOrder(root))
 
 
